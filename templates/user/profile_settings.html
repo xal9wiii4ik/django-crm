@@ -1,0 +1,209 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>profile settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'user_profile/css/main_settings.css' %}" rel="stylesheet">
+    <style type="text/css">
+    	body{margin-top:20px;
+color: #bcd0f7;
+    background: #1A233A;
+}
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+.account-settings .about {
+    margin: 1rem 0 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+}
+.card {
+    background: #272E48;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+.form-control {
+    border: 1px solid #596280;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #1A233A;
+    color: #bcd0f7;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+	<form action="" id="profile-settings">
+		{% csrf_token %}
+		<div class="row gutters">
+			<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+				<div class="card h-100">
+					<div class="card-body">
+						<div class="account-settings">
+							<div class="user-profile">
+								<div class="user-avatar">
+									{% if  user_profile_data.avatar == None %}
+										<img src="/media/default_image_for_user_profile.png">
+									{% else %}
+										<img src="{{ user_profile_data.avatar }}">
+									{% endif %}
+								</div>
+								<input type="file" name="avatar" id="avatar">
+								<p>{{ user_profile_data.username }}</p>
+								<p>{{ user_profile_data.email }}</p>
+							</div>
+							<div class="about">
+								<p>{{ user_profile_data.first_name }}</p>
+								<p>{{ user_profile_data.last_name }}</p>
+								<p>{{ user_profile_data.phone }}</p>
+								<p>{{ user_profile_data.street }}</p>
+								<p>{{ user_profile_data.city }}</p>
+								<p>{{ user_profile_data.region }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+				<div class="card h-100">
+					<div class="card-body">
+						<div class="row gutters">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<h6 class="mb-3 text-primary">Personal Details</h6>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="first_name">User Name</label>
+									<input type="text" class="form-control" id="username" value="{{user_profile_data.username}}" placeholder="Enter first name">
+								</div>
+								<div class="form-group">
+									<label for="first_name">First Name</label>
+									<input type="text" class="form-control" id="first_name" value="{{user_profile_data.first_name}}" placeholder="Enter first name">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="last_name">Last Name</label>
+									<input type="text" class="form-control" id="last_name" value="{{user_profile_data.last_name}}" placeholder="Enter last name">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="email">Email</label>
+									<input type="email" class="form-control" value="{{user_profile_data.email}}" id="email" placeholder="Enter email ID">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="phone">Phone</label>
+									<input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="street">Street</label>
+									<input type="text" class="form-control" id="street" placeholder="Enter Street">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="city">City</label>
+									<input type="text" class="form-control" id="city" placeholder="Enter City">
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="region">Region</label>
+									<input type="text" class="form-control" id="region" placeholder="Enter Region">
+								</div>
+							</div>
+						</div>
+						<div class="row gutters">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="text-right">
+									<input type="hidden" id="id" value="{{id}}">
+									<button class="btn btn-secondary">Cancel</button>
+									<button class="btn btn-primary">Update</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	const avatar = document.querySelector('#avatar');
+	avatar.addEventListener('change', e => {
+		e.preventDefault();
+		console.log(avatar.files[0]);
+	})
+	const form = document.querySelector('#profile-settings');
+	const idInput = document.querySelector('#id');
+	const userName = document.querySelector('#username');
+	const firstName = document.querySelector('#first_name');
+	const lastName = document.querySelector('#last_name');
+	const Email = document.querySelector('#email');
+	const Phone = document.querySelector('#phone');
+	const Street = document.querySelector('#street');
+	const City = document.querySelector('#city');
+	const Region = document.querySelector('#region');
+	form.addEventListener('submit', e => {
+		e.preventDefault();
+		const value = idInput.value;
+		const data = {
+			username: userName.value,
+			first_name: firstName.value,
+			last_name: lastName.value,
+			email: Email.value,
+			phone: Phone.value,
+			street: lastName.Street,
+			city: lastName.City,
+			region: lastName.Region,
+		};
+		const access_token = localStorage.getItem('access_token')
+		const res = fetch(`http://127.0.0.1:8000/user/profile/${value}/`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			},
+			body: JSON.stringify(data),
+
+		}).then( res => res.data)
+		.catch( e => console.error(e))
+	})
+</script>
+</body>
+</html>

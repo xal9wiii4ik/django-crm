@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'user_profile/css/main.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="описание не длиннее 155 символов">
+    <meta name="keywords" content="мета-теги, шаблон, html, css">
+    <title>Profile</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <ul class="header__nav">
+                <li class="header__nav__item">
+                    <a href="home.html" class="header__nav__item__link">main</a>
+                </li>
+                  <li class="header__nav__item">
+                      <a href="{% url 'user:userprofile-detail' data.id %}" class="header__nav__item__link">me</a>
+                  </li>
+                <li class="header__nav__item">
+                    <a href="{% url 'user:profile_settings' data.id %}" class="header__nav__item__link">settings</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <section id="main">
+        <div class="container">
+            {% if data.avatar == None %}
+                <img src="/media/default_image_for_user_profile.png" alt="">
+            {% else %}
+                <img src="{{ data.avatar }}" alt="">
+            {% endif %}
+            <h4 class="info">First name: {{ data.first_name }}</h4>
+            <h4 class="info">Last name: {{ data.last_name }}</h4>
+            <h4 class="info">Email: {{ data.email }}</h4>
+            <h4 class="info">Username: {{ data.username }}</h4>
+            <h4 class="info">Phone: {{ data.phone }}</h4>
+            <h4 class="info">Street: {{ data.street }}</h4>
+            <h4 class="info">City: {{ data.city }}</h4>
+            <h4 class="info">Region: {{ data.region }}</h4>
+            <input type="hidden" id="id" value="{{data.id}}">
+        </div>
+    </section>
+    <script type="text/javascript">
+		const access_token = localStorage.getItem('access_token')
+		console.log(access_token)
+		console.log(`Token ${access_token}`)
+		const id = document.querySelector('#id')
+		const value = id.value
+        const sendData = async function(url, method, data) {
+                try {
+                    const res = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Authorization': `Token ${access_token}`
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    const result = await res.json()
+                    console.log(result)
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            sendData(`http://127.0.0.1:8000/user/profile/${value}/`, 'GET')
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'Login_v11/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Login_v11/css/login_main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+				<form class="login100-form validate-form" id="post_login">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-55">
+						Login
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="username" placeholder="Email" id="username">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-envelope"></span>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" placeholder="Password" id="password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+					</div>
+
+					<div class="contact100-form-checkbox m-l-4">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+					</div>
+
+					<div class="container-login100-form-btn p-t-25">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-42 p-b-22">
+						<span class="txt1">
+							Or login with
+						</span>
+					</div>
+
+					<a href="{% url 'social:begin' 'facebook' %}" class="btn-face m-b-10">
+						<i class="fa fa-facebook-official"></i>
+						Facebook
+					</a>
+
+					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-10">
+						<img src="{% static 'Login_v11/images/icons/icon-google.png' %}" alt="GOOGLE">
+						Google
+					</a>
+
+					<div class="text-center w-full p-t-115">
+						<span class="txt1">
+							Not a member?
+						</span>
+
+						<a class="txt1 bo1 hov1" href="/auth/sign_up/">
+							Sign up now
+						</a>
+					</div>
+
+					<div class="text-center w-full p-t-45">
+						<span class="txt1">
+							Forgot password?
+						</span>
+
+						<a class="txt1 bo1 hov1" href="/auth/forgot_password/">
+							Forgot password
+						</a>
+					</div>
+					<input type="hidden" value="{{data.access}}" id="access_token">
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->	
+	<script src="{% static 'Login_v11/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login_v11/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'Login_v11/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login_v11/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login_v11/js/login_main.js' %}"></script>
+
+	<script type="text/javascript">
+		const username = document.querySelector('#username');
+		const password = document.querySelector('#password');
+		const postLogin = document.querySelector('#post_login');
+		const sendData = async function(url, method, data) {
+			try {
+				const res = await fetch(url, {
+					method: method,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data),
+				})
+				const result = await res.json()
+				console.log(result)
+				localStorage.setItem('access_token', result.access)
+				console.log(localStorage.getItem('access_token'))
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		postLogin.addEventListener('submit', e => {
+			e.preventDefault()
+			const data = {
+				username: username.value,
+				password: password.value
+			}
+			sendData('http://127.0.0.1:8000/auth/login/', 'POST', data)
+		})
+	</script>
+
+</body>
+</html>
