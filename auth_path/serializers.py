@@ -10,7 +10,7 @@ from auth_path.services_serializer import (
 
 
 class RegistrationSerializer(serializers.Serializer):
-    """Сериализатор для регистрации пользователя"""
+    """Serializer for registration"""
 
     first_name = serializers.CharField(max_length=25, required=True)
     last_name = serializers.CharField(max_length=25, required=True)
@@ -20,51 +20,51 @@ class RegistrationSerializer(serializers.Serializer):
     repeat_password = serializers.CharField(max_length=60, required=True)
 
     def validate_username(self, value: str) -> str:
-        """Валидация имени пользователя"""
+        """Validation username"""
 
         return verification_unique_username(value=value)
 
     def validate_email(self, value: str) -> str:
-        """Валидация почты"""
+        """Validation email"""
 
         return verification_unique_email(value=value)
 
     def validate_password(self, value: str) -> str:
-        """Валидация пароля"""
+        """Validation password"""
 
         return verification_password(value=value)
 
 
 class LogInSerializer(serializers.Serializer):
-    """Сериалайзер для входа в аккаунт и получения токена"""
+    """Serializer for log in"""
 
     username = serializers.CharField(max_length=60, required=True)
     password = serializers.CharField(max_length=60, required=True)
 
     def validate_username(self, value: str) -> str:
-        """Валидация почты и проверка на наличие пользователя в базе"""
+        """Validate username and check for availability in the database"""
 
         return verification_email_and_return_username(value=value)
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
-    """Сериалайзер для восстановления пароля"""
+    """Serializer for reset password"""
 
     email = serializers.EmailField(max_length=60, required=True)
 
     def validate_email(self, value: str) -> str:
-        """Валидация почты и проверка на наличие пользователя в базе"""
+        """Validate username and check for availability in the database"""
 
         return verification_exist_email(value=value)
 
 
 class ResetPasswordSerializer(serializers.Serializer):
-    """Суриалайзер для смены пароля"""
+    """Serializer for set new password"""
 
     password = serializers.CharField(max_length=60, required=True)
     repeat_password = serializers.CharField(max_length=60, required=True)
 
     def validate_password(self, value: str) -> str:
-        """Валидация пароля"""
+        """Validation password"""
 
         return verification_password(value=value)

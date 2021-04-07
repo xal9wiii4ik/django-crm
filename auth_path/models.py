@@ -5,7 +5,7 @@ from django.utils.http import urlsafe_base64_encode
 
 
 class Uid(models.Model):
-    """Модель юид для операций требующих подтверждение"""
+    """Model uid for future verification of user"""
 
     uid = models.CharField(max_length=25)
     user = models.OneToOneField(User, on_delete=models.CASCADE)

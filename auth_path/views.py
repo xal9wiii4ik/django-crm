@@ -18,7 +18,7 @@ from auth_path.services_view import (
 
 
 class RegistrationView(APIView):
-    """APIView для регистрации пользователя"""
+    """APIView for registration users"""
 
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer,)
     parser_classes = (parsers.FormParser, parsers.JSONParser)
@@ -44,23 +44,19 @@ class RegistrationView(APIView):
 
 
 class ActivationView(APIView):
-    """View для активации пользователя и
-    создания """
+    """View for activate user account """
 
     def get(self, request, uid, token):
         if activate_user_and_create_user_profile(uid=uid, token=token):
             return Response(data={'ok': 'User has been activate'},
-                            status=status.HTTP_200_OK
-                            # добавить template
-                            )
+                            status=status.HTTP_200_OK)
         return Response(data={'error': 'Un valid uid or token'},
-                        status=status.HTTP_400_BAD_REQUEST
-                        # добавить template
-                        )
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogInView(APIView):
-    """View для авторизации пользователя и выдачи токена"""
+    """View for custom log in
+    (with out functionality of simple jwt only get token from request!!!)"""
 
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
     parser_classes = (parsers.FormParser, parsers.JSONParser)
@@ -81,7 +77,7 @@ class LogInView(APIView):
 
 
 class ForgotPasswordView(APIView):
-    """View для сброса пароля"""
+    """View for reset password"""
 
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer,)
     parser_classes = (parsers.FormParser, parsers.JSONParser)
@@ -102,7 +98,7 @@ class ForgotPasswordView(APIView):
 
 
 class ResetPasswordView(APIView):
-    """View для сброса и установки нового пароля"""
+    """View for confirm and set new password"""
 
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer,)
     parser_classes = (parsers.FormParser, parsers.JSONParser)

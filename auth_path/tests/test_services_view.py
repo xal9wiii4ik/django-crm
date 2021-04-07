@@ -25,7 +25,7 @@ def get_request():
 
 
 class ServicesTestCase(TestCase):
-    """Тест для бизнес логики вьюшек"""
+    """Test for services of views"""
 
     def setUp(self):
         password = make_password(password='password')
@@ -47,7 +47,7 @@ class ServicesTestCase(TestCase):
         self.token_1 = Token.objects.create(user=self.user_1)
 
     def test_delete_object_or_uid_and_token(self):
-        """Тест для удаление юида и токена"""
+        """delete uid and token"""
 
         self.assertEqual(2, Uid.objects.all().count())
         self.assertEqual(2, Token.objects.all().count())
@@ -56,8 +56,7 @@ class ServicesTestCase(TestCase):
         self.assertEqual(1, Uid.objects.all().count())
 
     def test_get_verification_data_or_404_valid(self):
-        """Тест для получения объекта токена и юида
-        валидные токен и юид"""
+        """getting uid and token valid data"""
 
         data = _get_verification_data_or_404(uid=self.uid.uid,
                                              token=self.token.key)
@@ -65,8 +64,7 @@ class ServicesTestCase(TestCase):
         self.assertEqual(self.token, data['token_object'])
 
     def test_get_verification_data_or_404_un_valid_token(self):
-        """Тест для получения объекта токена и юида
-        не валидный токен и валидный юид"""
+        """getting uid and token un valid data"""
 
         try:
             _get_verification_data_or_404(uid='self.uid.uid',
@@ -77,8 +75,7 @@ class ServicesTestCase(TestCase):
             self.assertTrue(False)
 
     def test_get_verification_data_or_404_un_valid_uid(self):
-        """Тест для получения объекта токена и юида
-        валидный токен и не валидный юид"""
+        """getting uid and token valid data"""
 
         try:
             _get_verification_data_or_404(uid=self.uid.uid,
@@ -89,7 +86,7 @@ class ServicesTestCase(TestCase):
             self.assertTrue(False)
 
     def test_get_web_url_equal(self):
-        """Тест для получения правильной ссылки"""
+        """Getting true link"""
 
         request = get_request()
         url = _get_web_url(is_secure=request.is_secure(),
@@ -98,7 +95,7 @@ class ServicesTestCase(TestCase):
         self.assertEqual('http://testserverauth/sign_up/', url)
 
     def test_get_web_url_not_equal(self):
-        """Тест для получения не правильной ссылки"""
+        """Getting un true link"""
 
         request = get_request()
         url = _get_web_url(is_secure=request.is_secure(),
@@ -107,8 +104,7 @@ class ServicesTestCase(TestCase):
         self.assertNotEqual('http://local/sign_up/', url)
 
     def test_create_unique_uid_and_exist_token(self):
-        """Тест для создание уникального юида и токена
-        для потдверждения уникальности пользователя"""
+        """Create uid and token"""
 
         self.uid.delete()
         self.token.delete()
@@ -120,8 +116,7 @@ class ServicesTestCase(TestCase):
         self.assertEqual(expected_data, data)
 
     def test_create_exist_uid_and_unique_token(self):
-        """Тест для создание не уникального юида и токена
-        для потдверждения уникальности пользователя"""
+        """Create un valid uid and token"""
 
         try:
             _create_unique_uid_and_token(user=self.user)
@@ -131,21 +126,19 @@ class ServicesTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_uid_and_token_valid(self):
-        """Тест для проверка юида и токена на правильность"""
+        """Check uid and token for true"""
 
         self.assertTrue(_verification_uid_and_token(uid=self.uid.uid,
                                                     token=self.token.key))
 
     def test_verification_uid_and_token_un_valid_uid(self):
-        """Тест для проверка юида и токена на правильность
-        не правильный юид"""
+        """Check uid and token for not true"""
 
         self.assertFalse(_verification_uid_and_token(uid=self.uid_1.uid,
                                                      token=self.token.key))
 
     def test_verification_uid_and_token_un_valid_token(self):
-        """Тест для проверка юида и токена на правильность
-        не правильный токен"""
+        """Check uid and token for not true"""
 
         self.assertFalse(_verification_uid_and_token(uid=self.uid.uid,
                                                      token=self.token_1.key))

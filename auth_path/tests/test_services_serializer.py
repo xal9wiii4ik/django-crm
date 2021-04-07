@@ -13,15 +13,14 @@ from auth_path.services_serializer import (
 
 
 class ServicesSerializerTestCase(TestCase):
-    """Тест для бизнес логики сериализаторов"""
+    """Test for services of serializer"""
 
     def setUp(self):
         self.user = User.objects.create(username='user',
                                         email='email@mail.ru')
 
     def test_verification_password_un_valid_least_8(self):
-        """Тест для проверки не валидного пароля
-        меньше 8"""
+        """validation password"""
 
         try:
             verification_password(value='1234567')
@@ -31,8 +30,7 @@ class ServicesSerializerTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_password_un_valid_only_numbers(self):
-        """Тест для проверки не валидного пароля
-        только цифры"""
+        """validation password"""
 
         try:
             verification_password(value='12345678')
@@ -42,8 +40,7 @@ class ServicesSerializerTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_password_un_valid_no_contain_upper_latter(self):
-        """Тест для проверки не валидного пароля
-        нету заглавной буквы"""
+        """validation password"""
 
         try:
             verification_password(value='12345678')
@@ -53,8 +50,7 @@ class ServicesSerializerTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_password_un_valid_no_contain_number(self):
-        """Тест для проверки не валидного пароля
-        нету цифры"""
+        """validation password"""
 
         try:
             verification_password(value='aaaaaaaAAAAA')
@@ -64,31 +60,31 @@ class ServicesSerializerTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_password_valid(self):
-        """Тест для проверки валидного пароля"""
+        """validation password"""
 
         self.assertTrue(check_password(password='aaaaaaaAAAAA1',
                                        encoded=verification_password(value='aaaaaaaAAAAA1')))
 
     def test_verification_unique_email(self):
-        """Тест для проверки для проверки уникальности почты"""
+        """validation email"""
 
         self.assertEqual('exist@mail.ru',
                          verification_unique_email('exist@mail.ru'))
 
     def test_verification_exist_email(self):
-        """Тест для проверки для проверки существующей почты"""
+        """validation email exist"""
 
         self.assertEqual(self.user.email,
                          verification_exist_email(self.user.email))
 
     def test_verification_unique_username(self):
-        """Тест для проверки уникальности имени пользователя"""
+        """validation username"""
 
         self.assertEqual('unique_username',
                          verification_unique_username(value='unique_username'))
 
     def test_verification_exist_username(self):
-        """Тест для проверки существующего имени пользователя"""
+        """validation email exist"""
 
         try:
             verification_unique_username(value=self.user.username)
@@ -98,7 +94,7 @@ class ServicesSerializerTestCase(TestCase):
             self.assertTrue(False)
 
     def test_verification_email_and_return_username(self):
-        """Тест для проверки существующей почты и возврат имени пользователя"""
+        """validation username and return username"""
 
         self.assertEqual(self.user.username,
                          verification_email_and_return_username(value=self.user.email))

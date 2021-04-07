@@ -14,8 +14,7 @@ from user_profile.models import UserProfile
 
 
 def create_user_and_send_email_for_activation(data: dict, request) -> None:
-    """Создание пользователя и отправка
-    письма на почту для активации"""
+    """Create user and send email for activation"""
 
     user = User.objects.create(username=data['username'],
                                password=data['password'],
@@ -35,7 +34,7 @@ def create_user_and_send_email_for_activation(data: dict, request) -> None:
 
 
 def activate_user_and_create_user_profile(uid: str, token: str) -> bool:
-    """Активация пользователя и создание профиля пользователя"""
+    """Activate user"""
 
     if _verification_uid_and_token(uid=uid, token=token):
         verification_data = _get_verification_data_or_404(
@@ -56,7 +55,7 @@ def activate_user_and_create_user_profile(uid: str, token: str) -> bool:
 
 
 def send_mail_to_reset_password(data: dict, request) -> None:
-    """Отправка письма на почту для сброса пароля"""
+    """Send activation link to email for reset password"""
 
     new_data = _create_unique_uid_and_token(
         user=User.objects.get(email=data['email'])
@@ -72,7 +71,7 @@ def send_mail_to_reset_password(data: dict, request) -> None:
 
 
 def reset_password(uid: str, token: str, data: dict) -> None:
-    """Сброс пароля"""
+    """Reset password"""
 
     verification_data = _get_verification_data_or_404(
         uid=uid,
@@ -86,7 +85,7 @@ def reset_password(uid: str, token: str, data: dict) -> None:
 
 
 def get_tokens(data: dict, request) -> dict:
-    """Получение токенов"""
+    """Getting tokens"""
 
     url = _get_web_url(
         is_secure=request.is_secure(),
@@ -99,14 +98,14 @@ def get_tokens(data: dict, request) -> dict:
 
 
 def _delete_uid_and_token(uid_object, token_object) -> None:
-    """Удаление объектов юида и токена"""
+    """Delete objects of uid and token(djoser)"""
 
     uid_object.delete()
     token_object.delete()
 
 
 def _get_verification_data_or_404(uid: str, token: str) -> dict:
-    """Получение объектов юида и токена"""
+    """Getting objects of uid and token(djoser)"""
 
     uid_object = get_object_or_404(klass=Uid,
                                    uid=uid)
@@ -119,7 +118,7 @@ def _get_verification_data_or_404(uid: str, token: str) -> dict:
 
 
 def _get_web_url(is_secure: bool, host: str, url: str) -> str:
-    """Получение ссылки"""
+    """Getting url"""
 
     protocol = 'https://' if is_secure else 'http://'
     web_url = protocol + host
@@ -127,8 +126,7 @@ def _get_web_url(is_secure: bool, host: str, url: str) -> str:
 
 
 def _create_unique_uid_and_token(user) -> dict:
-    """Создание уникального юида и токена
-    для потдверждения уникальности пользователя"""
+    """Create unique uid and token for verification user"""
 
     uid = Uid.objects.create(user=user)
     token = Token.objects.create(user=user)
@@ -139,7 +137,7 @@ def _create_unique_uid_and_token(user) -> dict:
 
 
 def _verification_uid_and_token(uid: str, token: str) -> bool:
-    """Проверка юида и токена на правильность"""
+    """Checking uid and token for true"""
 
     verification_data = _get_verification_data_or_404(
         uid=uid,
