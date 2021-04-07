@@ -3,7 +3,7 @@ Default-Crm application(User-profile, auth) on django using django-rest-framewor
 This application is for future projects. U can take working functions(methods) from this application to your project, 
 and do a bit changes according your task.
 
-#main libraries:
+# main libraries:
 1) Django-rest-framework
 2) djangorestframework-simplejwt
 3) django-cors-headers
