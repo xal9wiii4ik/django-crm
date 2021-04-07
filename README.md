@@ -9,5 +9,6 @@ and do a bit changes according your task.
 3) django-cors-headers
 4) djoser(this only for custom functional of verificate user for my experience)
 5) requests(this only for custom functional)
+6) Unit test(cover all fucntions)
 
 # date the code was written: 07.09.2020
