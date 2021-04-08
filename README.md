@@ -11,4 +11,6 @@ and do a bit changes according your task.
 5) requests(this only for custom functional)
 6) Unit test(cover all functions)
 
+# Database MySQL
+
 # date the code was written: 07.09.2020
